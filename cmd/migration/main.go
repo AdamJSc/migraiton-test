@@ -29,12 +29,11 @@ func main() {
 		ctx = context.Background()
 
 		sourceName = "local data files"
-		sourcePath = "file://data" // migrations file source directory
+		sourcePath = "file://migrations" // migrations file source directory
 
 		conn   = "mongodb://testUser:testPass@localhost:27017" // mongo connection string
 		connTO = 5                                             // mongo connection timeout in secs
 		dbName = "myDB"                                        // mongo db name
-
 	)
 
 	log.Println("instantiating mongo client...")
@@ -75,16 +74,22 @@ func main() {
 	log.Println("instantiating migration client...")
 
 	// build migration client
-	_, err = migrate.NewWithInstance(sourceName, source, dbName, md)
+	mig, err := migrate.NewWithInstance(sourceName, source, dbName, md)
 	if err != nil {
 		log.Fatalf("cannot instantiate migration client: %s", err.Error())
 	}
 
 	switch {
 	case up:
-		log.Println("TODO: migrate up")
+		if err := mig.Up(); err != nil {
+			log.Fatalf("cannot migrate up: %s", err.Error())
+		}
+		log.Println("migrate up successful!")
 	case down:
-		log.Println("TODO: migrate down")
+		if err := mig.Down(); err != nil {
+			log.Fatalf("cannot migrate down: %s", err.Error())
+		}
+		log.Println("migrate down successful!")
 	}
 
 	log.Println("process complete!")
