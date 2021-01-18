@@ -1,0 +1,15 @@
+[
+  {
+    "createIndexes": "users",
+    "indexes": [
+      {
+        "name": "postcode_lastName_firstName",
+        "key": {
+          "postcode": 1,
+          "lastName": 1,
+          "firstName": 1
+        }
+      }
+    ]
+  }
+]

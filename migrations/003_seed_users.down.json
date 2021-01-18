@@ -1,0 +1,13 @@
+[
+  {
+    "delete": "users",
+    "deletes": [
+      {
+        "q": {
+          "postcode": "L2 6RE"
+        },
+        "limit": 0
+      }
+    ]
+  }
+]

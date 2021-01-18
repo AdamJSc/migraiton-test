@@ -1,0 +1,31 @@
+[
+  {
+    "insert": "users",
+    "documents": [
+      {
+        "firstName": "Paul",
+        "lastName": "McCartney",
+        "occupation": "Bass",
+        "postcode": "L2 6RE"
+      },
+      {
+        "firstName": "John",
+        "lastName": "Lennon",
+        "occupation": "Guitar",
+        "postcode": "L2 6RE"
+      },
+      {
+        "firstName": "George",
+        "lastName": "Harrison",
+        "occupation": "Other Guitar",
+        "postcode": "L2 6RE"
+      },
+      {
+        "firstName": "Ringo",
+        "lastName": "Starr",
+        "occupation": "Percussion",
+        "postcode": "L2 6RE"
+      }
+    ]
+  }
+]
