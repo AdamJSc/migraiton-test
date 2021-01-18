@@ -15,9 +15,13 @@ import (
 
 func main() {
 	// cli bootstrap
-	var up, down bool
+	var (
+		up, down bool
+		steps    int
+	)
 	flag.BoolVar(&up, "up", false, "bring migrations up")
 	flag.BoolVar(&down, "down", false, "bring migrations down")
+	flag.IntVar(&steps, "steps", 0, "number of steps to migrate (default all)")
 	flag.Parse()
 
 	if (up && down) || (!up && !down) {
@@ -81,13 +85,27 @@ func main() {
 
 	switch {
 	case up:
-		if err := mig.Up(); err != nil {
-			log.Fatalf("cannot migrate up: %s", err.Error())
+		switch {
+		case steps > 0:
+			if err := mig.Steps(steps); err != nil {
+				log.Fatalf("cannot migrate up: %s", err.Error())
+			}
+		default:
+			if err := mig.Up(); err != nil {
+				log.Fatalf("cannot migrate up: %s", err.Error())
+			}
 		}
 		log.Println("migrate up successful!")
 	case down:
-		if err := mig.Down(); err != nil {
-			log.Fatalf("cannot migrate down: %s", err.Error())
+		switch {
+		case steps > 0:
+			if err := mig.Steps(-steps); err != nil {
+				log.Fatalf("cannot migrate down: %s", err.Error())
+			}
+		default:
+			if err := mig.Down(); err != nil {
+				log.Fatalf("cannot migrate down: %s", err.Error())
+			}
 		}
 		log.Println("migrate down successful!")
 	}
