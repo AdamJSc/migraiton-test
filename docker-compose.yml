@@ -1,0 +1,10 @@
+version: "3"
+services:
+  db:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: testUser
+      MONGO_INITDB_ROOT_PASSWORD: testPass
+    ports:
+      - 27017:27017
