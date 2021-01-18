@@ -41,3 +41,8 @@ migrate -source file://path/to/migrations -database postgres://localhost:5432/da
 docker run -v {{ migration dir }}:/migrations --network host migrate/migrate \
     -path=/migrations/ -database postgres://localhost:5432/database up 2
 ```
+
+## Docs & Reference
+
+* [Mongo migration driver](https://github.com/golang-migrate/migrate/tree/master/database/mongodb)
+* [Mongo run commands](https://docs.mongodb.com/manual/reference/command)
