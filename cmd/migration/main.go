@@ -21,7 +21,7 @@ func main() {
 	flag.Parse()
 
 	if (up && down) || (!up && !down) {
-		log.Fatal("please set either -up or -down flags")
+		log.Fatal("please set either -up or -down flag")
 	}
 
 	// setup
@@ -37,44 +37,55 @@ func main() {
 
 	)
 
+	log.Println("instantiating mongo client...")
+
 	// mongo client
 	mc, err := mongo.NewClient(
 		options.Client().ApplyURI(conn),
 		options.Client().SetConnectTimeout(time.Duration(connTO)*time.Second),
 	)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("cannot instantiate mongo client: %s", err.Error())
 	}
+
+	log.Println("connecting mongo client...")
+
 	if err := mc.Connect(ctx); err != nil {
-		log.Fatal(err)
+		log.Fatalf("cannot connect mongo client: %s", err.Error())
 	}
+
+	log.Println("instantiating mongo driver...")
 
 	// mongo migration driver
 	cnf := &mongodb.Config{DatabaseName: dbName}
 	md, err := mongodb.WithInstance(mc, cnf)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("cannot instantiate mongo driver: %s", err.Error())
 	}
+
+	log.Println("opening migrations source...")
 
 	// source driver
 	f := &file.File{}
 	source, err := f.Open(sourcePath)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("cannot open migrations source %s: %s", sourcePath, err.Error())
 	}
+
+	log.Println("instantiating migration client...")
 
 	// build migration client
-	mig, err := migrate.NewWithInstance(sourceName, source, dbName, md)
+	_, err = migrate.NewWithInstance(sourceName, source, dbName, md)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("cannot instantiate migration client: %s", err.Error())
 	}
-
-	log.Println(mig)
 
 	switch {
 	case up:
-		log.Println("migrate up")
+		log.Println("TODO: migrate up")
 	case down:
-		log.Println("migrate down")
+		log.Println("TODO: migrate down")
 	}
+
+	log.Println("process complete!")
 }
